@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
 export default function Header ()  {
-
+  
   return (
     <header className="w-full border-b sticky top-0 bg-white z-50">
       <div className="flex items-center justify-between px-6 py-4 text-sm">

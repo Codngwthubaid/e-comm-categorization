@@ -9,16 +9,10 @@ import categoryRoutes from "./routes/category.routes.js";
 dotenv.config();
 connectDB();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://e-comm-categorization.vercel.app"
-];
-
 const app = express();
 app.use(cors(
   {
-    origin: allowedOrigins,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
     credentials: true,
   }
 ));
