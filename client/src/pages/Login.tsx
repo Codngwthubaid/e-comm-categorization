@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth.store";
-import axios from "axios";
+import { axiosInstance } from "@/lib/axiosInstance";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", { email, password });
+      const res = await axiosInstance.post("/auth/login", { email, password });
       setToken(res.data.token);
       navigate("/interests");
     } catch (err) {

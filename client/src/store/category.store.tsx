@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import axios from 'axios';
 import { useAuthStore } from './auth.store';
 import type { CategoryStore } from '@/types/category.types';
+import { axiosInstance } from '@/lib/axiosInstance';
 
 export const useCategoryStore = create<CategoryStore>((set, get) => ({
   categories: [],
@@ -13,7 +13,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     try {
       const token = (useAuthStore.getState() as { token: string | null }).token;
       const { page } = get();
-      const res = await axios.get(`http://localhost:5000/api/categories?page=${page}&limit=6`, {
+      const res = await axiosInstance.get(`/categories?page=${page}&limit=6`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       set({ categories: res.data.categories });
@@ -32,11 +32,10 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   },
 
   saveSelected: async () => {
-      const token = (useAuthStore.getState() as { token: string | null }).token;
+    const token = (useAuthStore.getState() as { token: string | null }).token;
     const { selected } = get();
     try {
-      await axios.post(
-        "http://localhost:5000/api/categories/select",
+      await axiosInstance.post("/categories/select",
         { categoryIds: selected },
         { headers: { Authorization: `Bearer ${token}` } }
       );

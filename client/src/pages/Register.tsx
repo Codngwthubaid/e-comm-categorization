@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosInstance } from "@/lib/axiosInstance";
 
 export default function Register() {
     const [name, setName] = useState("");
@@ -13,7 +13,7 @@ export default function Register() {
 
     const handleRegister = async () => {
         try {
-            await axios.post("http://localhost:5000/api/auth/register", { name, email, password });
+            await axiosInstance.post("/auth/register", { name, email, password });
             navigate("/login");
         } catch (err) {
             alert("Register failed");
