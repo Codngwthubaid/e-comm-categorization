@@ -11,7 +11,7 @@ connectDB();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://e-comm-categorization.vercel.app/"
+  "https://e-comm-categorization.vercel.app"
 ];
 
 const app = express();
