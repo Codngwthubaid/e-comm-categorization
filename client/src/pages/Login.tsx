@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth.store";
 import { axiosInstance } from "@/lib/axiosInstance";
+import { Loader } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const setToken = useAuthStore((state) => state.setToken);
   const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ export default function Login() {
       const res = await axiosInstance.post("/auth/login", { email, password });
       setToken(res.data.token);
       navigate("/interests");
+      setLoading(false);
     } catch (err) {
       alert("Login failed");
     }
@@ -52,8 +55,15 @@ export default function Login() {
             </div>
           </div>
 
-          <Button className="w-full bg-black text-white hover:bg-black/80" onClick={handleLogin}>
-            LOGIN
+          <Button
+            className="w-full bg-black text-white hover:bg-black/80 flex items-center justify-center"
+            onClick={handleLogin}
+            disabled={loading}
+          >
+            {loading ? (
+              <Loader className="animate-spin mr-2" size={16} />
+            ) : null}
+            {loading ? "Logging in..." : "LOGIN"}
           </Button>
 
           <div className="border-t my-4"></div>

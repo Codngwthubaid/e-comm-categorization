@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "@/lib/axiosInstance";
+import { Loader } from "lucide-react";
 
 export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -15,6 +17,7 @@ export default function Register() {
         try {
             await axiosInstance.post("/auth/register", { name, email, password });
             navigate("/login");
+            setLoading(false);
         } catch (err) {
             alert("Register failed");
         }
@@ -53,8 +56,15 @@ export default function Register() {
                         </div>
                     </div>
 
-                    <Button className="w-full bg-black text-white hover:bg-black/80" onClick={handleRegister}>
-                        CREATE NEW ACCOUNT
+                    <Button
+                        className="w-full bg-black text-white hover:bg-black/80 flex items-center justify-center"
+                        onClick={handleRegister}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <Loader className="animate-spin mr-2" size={16} />
+                        ) : null}
+                        {loading ? "Creating ..." : "  CREATE NEW ACCOUNT"}
                     </Button>
 
                     <div className="border-t my-4"></div>
